@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields, library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 
 class Product {
@@ -14,6 +16,8 @@ class Product {
 }
 
 class ShoppingCartPage extends StatefulWidget {
+  const ShoppingCartPage({super.key});
+
   @override
   _ShoppingCartPageState createState() => _ShoppingCartPageState();
 }
@@ -48,7 +52,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Keranjang'),
+        title: const Text('Keranjang'),
       ),
       body: ListView.builder(
         itemCount: _products.length,
@@ -65,7 +69,7 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
             subtitle: Row(
               children: [
                 Text('Rp ${product.price.toString()}'),
-                Spacer(),
+                const Spacer(),
                 Text(product.quantity.toString()), // Tampilkan jumlah produk
               ],
             ),
@@ -75,20 +79,20 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
       bottomNavigationBar: BottomAppBar(
         child: Container(
           height: 50.0,
-          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
                 'Total: Rp ${_totalAmount.toStringAsFixed(0)}',
-                style: TextStyle(fontSize: 18.0),
+                style: const TextStyle(fontSize: 18.0),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Checkout
                   // Implementasi checkout
                 },
-                child: Text('Checkout'),
+                child: const Text('Checkout'),
               ),
             ],
           ),
@@ -99,9 +103,9 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
 
   void _updateTotalAmount() {
     double total = 0;
-    _products.forEach((product) {
+    for (var product in _products) {
       total += product.price * product.quantity;
-    });
+    }
     setState(() {
       _totalAmount = total;
     });

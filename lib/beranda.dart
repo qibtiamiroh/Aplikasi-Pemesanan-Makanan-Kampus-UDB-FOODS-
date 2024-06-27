@@ -1,7 +1,9 @@
+// ignore_for_file: library_private_types_in_public_api, unused_element
+
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:project_uts/masuk.dart';
 import 'package:project_uts/riwayat_pembelian.dart';
-import 'package:project_uts/main.dart';
 import 'package:project_uts/profil.dart';
 import 'package:project_uts/pencarian.dart';
 import 'package:project_uts/keranjang.dart';
@@ -9,8 +11,8 @@ import 'package:project_uts/keranjang.dart';
 class MenuItem {
   final String name;
   final String description;
-  final int price; // Mengubah tipe data harga menjadi int
-  final String imagePath; // Menambahkan properti imagePath untuk gambar
+  final int price;
+  final String imagePath;
 
   MenuItem({
     required this.name,
@@ -21,15 +23,19 @@ class MenuItem {
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: HomePage(),
     );
   }
 }
 
 class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -39,12 +45,12 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CardHeader(), // Kembalikan CardHeader
+          const CardHeader(), // Kembalikan CardHeader
           Expanded(
             child: SingleChildScrollView(
               child: Padding(
@@ -52,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    SizedBox(height: 10.0),
+                    const SizedBox(height: 10.0),
                     Card(
                       elevation: 20.0,
                       child: Padding(
@@ -61,9 +67,9 @@ class _HomePageState extends State<HomePage> {
                           options: CarouselOptions(
                             aspectRatio: 12 / 5,
                             autoPlay: true,
-                            autoPlayInterval: Duration(
+                            autoPlayInterval: const Duration(
                                 seconds: 5), // Atur interval pergeseran gambar
-                            autoPlayAnimationDuration: Duration(
+                            autoPlayAnimationDuration: const Duration(
                                 milliseconds:
                                     800), // Atur durasi animasi pergeseran
                           ),
@@ -76,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                               builder: (BuildContext context) {
                                 return Container(
                                   width: MediaQuery.of(context).size.width,
-                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  margin: const EdgeInsets.symmetric(horizontal: 5.0),
                                   decoration: BoxDecoration(
                                     color: Colors.amber,
                                     borderRadius: BorderRadius.circular(8.0),
@@ -93,21 +99,21 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20.0),
-                    Text(
+                    const SizedBox(height: 20.0),
+                    const Text(
                       '',
                       style: TextStyle(
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    NearbyRestaurantList(), // Tambahkan widget NearbyRestaurantList
+                    const NearbyRestaurantList(),
                   ],
                 ),
               ),
             ),
           ),
-          CardMenu(), // Menu yang tidak ikut di-scroll
+          const CardMenu(), // Menu yang tidak ikut di-scroll
         ],
       ),
     );
@@ -128,33 +134,33 @@ class _HomePageState extends State<HomePage> {
               height: 100.0, // Perbesar ukuran gambar
               fit: BoxFit.cover,
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 5.0),
+                  const SizedBox(height: 5.0),
                   Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(height: 5.0),
+                  const SizedBox(height: 5.0),
                   Row(
                     children: [
-                      Icon(Icons.star, color: Colors.yellow),
-                      SizedBox(width: 5.0),
+                      const Icon(Icons.star, color: Colors.yellow),
+                      const SizedBox(width: 5.0),
                       Text(
                         '$rating',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16.0,
                         ),
                       ),
@@ -171,6 +177,8 @@ class _HomePageState extends State<HomePage> {
 }
 
 class CardHeader extends StatelessWidget {
+  const CardHeader({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -179,26 +187,26 @@ class CardHeader extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
-            Text(
+            const Text(
               'UDB FOODS',
               style: TextStyle(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Spacer(),
+            const Spacer(),
             IconButton(
-              icon: Icon(Icons.shopping_cart),
+              icon: const Icon(Icons.shopping_cart),
               onPressed: () {
                 // Buka halaman keranjang belanja
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ShoppingCartPage()),
+                  MaterialPageRoute(builder: (context) => const ShoppingCartPage()),
                 );
               },
             ),
             IconButton(
-              icon: Icon(Icons.logout),
+              icon: const Icon(Icons.logout),
               onPressed: () {
                 Navigator.pushReplacement(
                   context,
@@ -214,6 +222,8 @@ class CardHeader extends StatelessWidget {
 }
 
 class CardMenu extends StatelessWidget {
+  const CardMenu({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -229,11 +239,11 @@ class CardMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => HomePage(),
+                    builder: (context) => const HomePage(),
                   ),
                 );
               },
-              child: Column(
+              child: const Column(
                 children: [
                   Icon(
                     Icons.home,
@@ -249,11 +259,11 @@ class CardMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SearchPage(),
+                    builder: (context) => const SearchPage(),
                   ),
                 );
               },
-              child: Column(
+              child: const Column(
                 children: [
                   Icon(
                     Icons.search,
@@ -269,11 +279,11 @@ class CardMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PaymentHistoryPage(),
+                    builder: (context) => const PaymentHistoryPage(),
                   ),
                 );
               },
-              child: Column(
+              child: const Column(
                 children: [
                   Icon(
                     Icons.history,
@@ -289,11 +299,11 @@ class CardMenu extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProfilePage(),
+                    builder: (context) => const ProfilePage(),
                   ),
                 );
               },
-              child: Column(
+              child: const Column(
                 children: [
                   Icon(
                     Icons.person,
@@ -311,6 +321,8 @@ class CardMenu extends StatelessWidget {
 }
 
 class NearbyRestaurantList extends StatelessWidget {
+  const NearbyRestaurantList({super.key});
+
   @override
   Widget build(BuildContext context) {
     // Buat daftar menu makanan untuk setiap restoran
@@ -400,7 +412,7 @@ class NearbyRestaurantPage extends StatelessWidget {
   final String imagePath;
   final List<MenuItem> menuItems; // Tambahkan properti menuItems
 
-  NearbyRestaurantPage({
+  const NearbyRestaurantPage({super.key, 
     required this.name,
     required this.description,
     required this.rating,
@@ -428,13 +440,13 @@ class NearbyRestaurantPage extends StatelessWidget {
       },
       child: Card(
         elevation: 8.0,
-        margin: EdgeInsets.all(16.0),
+        margin: const EdgeInsets.all(16.0),
         child: Column(
           children: [
             Stack(
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.only(
+                  borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(8.0),
                     topRight: Radius.circular(8.0),
                   ),
@@ -449,19 +461,19 @@ class NearbyRestaurantPage extends StatelessWidget {
                   top: 8.0,
                   right: 8.0,
                   child: Container(
-                    padding: EdgeInsets.all(4.0),
+                    padding: const EdgeInsets.all(4.0),
                     color: Colors.black54,
                     child: Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star,
                           color: Colors.yellow,
                           size: 16.0,
                         ),
-                        SizedBox(width: 4.0),
+                        const SizedBox(width: 4.0),
                         Text(
                           '$rating',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14.0,
                           ),
@@ -473,21 +485,21 @@ class NearbyRestaurantPage extends StatelessWidget {
               ],
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
@@ -508,7 +520,7 @@ class RestaurantDetailsPage extends StatelessWidget {
   final String imagePath;
   final List<MenuItem> menuItems; // Tambahkan properti menuItems
 
-  RestaurantDetailsPage({
+  const RestaurantDetailsPage({super.key, 
     required this.name,
     required this.description,
     required this.rating,
@@ -532,50 +544,50 @@ class RestaurantDetailsPage extends StatelessWidget {
               fit: BoxFit.cover,
             ),
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.star,
                         color: Colors.yellow,
                         size: 20.0,
                       ),
-                      SizedBox(width: 4.0),
+                      const SizedBox(width: 4.0),
                       Text(
                         '$rating',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 18.0,
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     description,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                     ),
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
+                  const SizedBox(height: 16.0),
+                  const Text(
                     'Menu:',
                     style: TextStyle(
                       fontSize: 20.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   // Menampilkan daftar menu makanan
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -589,14 +601,14 @@ class RestaurantDetailsPage extends StatelessWidget {
                               height: 50, // Tinggi gambar menu
                               fit: BoxFit.cover,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             Text(item.name),
                           ],
                         ),
                         subtitle: Text(item.description),
                         trailing: Text(
                           'Rp ${item.price}', // Konversi harga ke Rupiah
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -614,5 +626,5 @@ class RestaurantDetailsPage extends StatelessWidget {
 }
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }

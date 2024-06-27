@@ -15,10 +15,12 @@ List<Payment> payments = [
 ];
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,23 +28,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: PaymentHistoryPage(),
+      home: const PaymentHistoryPage(),
     );
   }
 }
 
 class PaymentHistoryPage extends StatelessWidget {
+  const PaymentHistoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: const Text(''),
       ),
       body: ListView.builder(
         itemCount: payments.length + 1, // Add 1 for the header
         itemBuilder: (context, index) {
           if (index == 0) {
-            return Padding(
+            return const Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
                 'Riwayat Pembelian',
@@ -56,7 +60,7 @@ class PaymentHistoryPage extends StatelessWidget {
           final payment = payments[index - 1];
           return Card(
             elevation: 2,
-            margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
             child: ListTile(
               title: Text(payment.title),
               subtitle: Column(
@@ -64,12 +68,12 @@ class PaymentHistoryPage extends StatelessWidget {
                 children: [
                   Text(
                     'Rp ${payment.amount.toString()}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 16,
                     ),
                   ),
-                  SizedBox(height: 4),
+                  const SizedBox(height: 4),
                   Text(
                     payment.date,
                     style: TextStyle(
@@ -78,7 +82,7 @@ class PaymentHistoryPage extends StatelessWidget {
                   ),
                 ],
               ),
-              trailing: Icon(Icons.arrow_forward_ios),
+              trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 // Add navigation to payment detail page
               },

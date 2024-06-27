@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "452745461636",
+    "firebase_url": "https://aplikasi-makanan-kampus-online-default-rtdb.firebaseio.com",
+    "project_id": "aplikasi-makanan-kampus-online",
+    "storage_bucket": "aplikasi-makanan-kampus-online.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452745461636:android:312a6188ff9d9c5388e7d1",
+        "android_client_info": {
+          "package_name": "com.example.project_uts"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZ82tADHn5QBv8pS9LjVZpU800BicWCNk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

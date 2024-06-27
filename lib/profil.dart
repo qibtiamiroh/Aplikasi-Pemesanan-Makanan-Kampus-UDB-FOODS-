@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(ProfilePage());
+  runApp(const ProfilePage());
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(''),
+          title: const Text(''),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -22,31 +24,31 @@ class ProfilePage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 30),
-              Center(
+              const SizedBox(height: 30),
+              const Center(
                 child: CircleAvatar(
                   radius: 70,
                   backgroundImage:
                       AssetImage('asset_media/image/profile_image.jpg'),
                 ),
               ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+              const SizedBox(height: 20),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   'Ranty Maria',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+              const SizedBox(height: 10),
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
                   '220103069',
                   style: TextStyle(fontSize: 16),
                 ),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               buildListItem(Icons.shopping_cart, 'Pesanan', () {}),
               buildListItem(Icons.notifications, 'Notifikasi', () {}),
               buildListItem(Icons.security, 'Keamanan Akun', () {}),

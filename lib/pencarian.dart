@@ -1,46 +1,45 @@
+// ignore_for_file: library_private_types_in_public_api, prefer_final_fields
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:project_uts/riwayat_pembelian.dart';
 import 'package:project_uts/keranjang.dart';
 
 void main() {
-  runApp(SearchPage());
+  runApp(const SearchPage());
 }
 
 class SearchPage extends StatelessWidget {
+  const SearchPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(''),
+          title: const Text(''),
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
+            icon: const Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
         ),
-        body: SearchBody(),
+        body: const SearchBody(),
       ),
     );
   }
 }
 
 class SearchBody extends StatefulWidget {
+  const SearchBody({super.key});
+
   @override
   _SearchBodyState createState() => _SearchBodyState();
 }
 
 class _SearchBodyState extends State<SearchBody> {
   String _searchQuery = '';
-  List<String> _foodItems = [
-    'Nasi',
-    'Nasi Ayam',
-    'Burger',
-    'Mie',
-    'Mie Ayam',
-  ];
-
   List<Restaurant> _restaurants = [
     Restaurant(
       name: 'Nasi Ayam',
@@ -223,9 +222,9 @@ class _SearchBodyState extends State<SearchBody> {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.all(10.0),
+          padding: const EdgeInsets.all(10.0),
           child: TextField(
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               hintText: 'Search...',
               suffixIcon: Icon(Icons.search),
             ),
@@ -256,7 +255,7 @@ class _SearchBodyState extends State<SearchBody> {
                         MaterialPageRoute(builder: (context) => PromoPage()),
                       );
                     },
-                    child: Icon(Icons.local_offer),
+                    child: const Icon(Icons.local_offer),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -265,17 +264,17 @@ class _SearchBodyState extends State<SearchBody> {
                         MaterialPageRoute(builder: (context) => PersenPage()),
                       );
                     },
-                    child: Icon(Icons.pie_chart),
+                    child: const Icon(Icons.pie_chart),
                   ),
                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ShoppingCartPage()),
+                            builder: (context) => const ShoppingCartPage()),
                       );
                     },
-                    child: Icon(Icons.shopping_cart),
+                    child: const Icon(Icons.shopping_cart),
                   ),
                 ],
               ),
@@ -284,9 +283,9 @@ class _SearchBodyState extends State<SearchBody> {
         ),
         Expanded(
           child: ListView.builder(
-            itemCount: _restaurants.length,
-            itemBuilder: (context, index) {
-              final restaurant = _restaurants[index];
+          itemCount: _restaurants.length,
+          itemBuilder: (context, index) {
+            final restaurant = _restaurants[index];
               if (_searchQuery.isNotEmpty &&
                   !restaurant.name.toLowerCase().contains(_searchQuery)) {
                 return Container();
@@ -325,11 +324,27 @@ class Restaurant {
   final List<MenuItem> menu;
   final List<MenuItem> drinks;
 
-  Restaurant(
-      {required this.name,
-      required this.cuisine,
-      required this.menu,
-      required this.drinks});
+  Restaurant({
+    required this.name,
+    required this.cuisine,
+    required this.menu,
+    required this.drinks,
+  });
+
+  factory Restaurant.fromFirestore(DocumentSnapshot doc) {
+    Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+    // Adjust this according to your Firestore structure
+    return Restaurant(
+      name: data['name'],
+      cuisine: data['cuisine'],
+      menu: _parseMenuList(data['menu']),
+      drinks: _parseMenuList(data['drinks']),
+    );
+  }
+
+  static List<MenuItem> _parseMenuList(List<dynamic> list) {
+    return list.map((item) => MenuItem.fromMap(item)).toList();
+  }
 }
 
 class MenuItem {
@@ -342,15 +357,25 @@ class MenuItem {
     required this.name,
     required this.price,
     required this.image,
-    this.quantity = 1, // Inisialisasi quantity dengan nilai default 1
+    this.quantity = 1,
   });
+
+  factory MenuItem.fromMap(Map<String, dynamic> map) {
+    return MenuItem(
+      name: map['name'],
+      price: map['price'],
+      image: map['image'],
+      quantity: map['quantity'] ?? 1,
+    );
+  }
 }
+
 
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final Function(MenuItem) onAddToCart;
 
-  RestaurantCard({required this.restaurant, required this.onAddToCart});
+  const RestaurantCard({super.key, required this.restaurant, required this.onAddToCart});
 
   @override
   Widget build(BuildContext context) {
@@ -376,7 +401,7 @@ class RestaurantCard extends StatelessWidget {
 class CartPage extends StatefulWidget {
   final List<MenuItem> cartItems;
 
-  CartPage({required this.cartItems});
+  const CartPage({super.key, required this.cartItems});
 
   @override
   _CartPageState createState() => _CartPageState();
@@ -406,17 +431,17 @@ class _CartPageState extends State<CartPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Checkout Confirmation'),
+          title: const Text('Checkout Confirmation'),
           content: Text('Total Price: Rp $totalPrice\n\nProceed to checkout?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('Checkout'),
+              child: const Text('Checkout'),
               onPressed: () {
                 Navigator.of(context).pop();
                 _checkout();
@@ -431,17 +456,17 @@ class _CartPageState extends State<CartPage> {
   void _checkout() {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PaymentHistoryPage()),
+      MaterialPageRoute(builder: (context) => const PaymentHistoryPage()),
     );
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Checkout Success'),
-          content: Text('Thank you for your purchase!'),
+          title: const Text('Checkout Success'),
+          content: const Text('Thank you for your purchase!'),
           actions: <Widget>[
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -456,7 +481,7 @@ class _CartPageState extends State<CartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cart'),
+        title: const Text('Cart'),
       ),
       body: Column(
         children: [
@@ -470,7 +495,7 @@ class _CartPageState extends State<CartPage> {
                   subtitle:
                       Text('Rp ${item.price.toString()} x ${item.quantity}'),
                   trailing: IconButton(
-                    icon: Icon(Icons.remove),
+                    icon: const Icon(Icons.remove),
                     onPressed: () {
                       setState(() {
                         if (item.quantity > 0) {
@@ -503,11 +528,13 @@ class PromoPage extends StatelessWidget {
     // Tambahkan promo lain jika diperlukan
   ];
 
+  PromoPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Promo'),
+        title: const Text('Promo'),
       ),
       body: ListView.builder(
         itemCount: promos.length,
@@ -515,7 +542,6 @@ class PromoPage extends StatelessWidget {
           return ListTile(
             title: Text(promos[index]),
             onTap: () {
-              // Panggil fungsi untuk menangani promo tertentu
               _handlePromo(promos[index], context);
             },
           );
@@ -527,25 +553,20 @@ class PromoPage extends StatelessWidget {
   void _handlePromo(String promo, BuildContext context) {
     // Implementasi logika untuk setiap promo
     if (promo == 'Beli 2 diskon 40%') {
-      // Implementasi logika diskon beli 2 diskon 40%
-      // Misalnya, tampilkan pesan bahwa promo sedang tidak tersedia
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Promo Beli 2 diskon 40% sedang tidak tersedia.'),
           duration: Duration(seconds: 2),
         ),
       );
     } else if (promo == 'Beli 2 gratis 1') {
-      // Implementasi logika beli 2 gratis 1
-      // Misalnya, tampilkan pesan bahwa promo sedang tidak tersedia
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Promo Beli 2 gratis 1 sedang tidak tersedia.'),
           duration: Duration(seconds: 2),
         ),
       );
     }
-    // Tambahkan implementasi untuk promo lain jika diperlukan
   }
 }
 
@@ -554,14 +575,15 @@ class PersenPage extends StatelessWidget {
     'Diskon 10%',
     'Diskon 20%',
     'Diskon 30%',
-    // Tambahkan promo diskon lain jika diperlukan
   ];
+
+  PersenPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Persen'),
+        title: const Text('Persen'),
       ),
       body: ListView.builder(
         itemCount: persenPromos.length,
@@ -569,7 +591,6 @@ class PersenPage extends StatelessWidget {
           return ListTile(
             title: Text(persenPromos[index]),
             onTap: () {
-              // Panggil fungsi untuk menangani promo diskon persen tertentu
               _handlePersenPromo(persenPromos[index], context);
             },
           );
@@ -579,22 +600,19 @@ class PersenPage extends StatelessWidget {
   }
 
   void _handlePersenPromo(String promo, BuildContext context) {
-    // Implementasi logika untuk setiap promo diskon persen
-    // Misalnya, tampilkan pesan bahwa promo sedang tidak tersedia
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text('Promo $promo sedang tidak tersedia.'),
-        duration: Duration(seconds: 2),
+        duration: const Duration(seconds: 2),
       ),
     );
-    // Tambahkan implementasi untuk promo diskon persen lain jika diperlukan
   }
 }
 
 class RestaurantDetailPage extends StatelessWidget {
   final Restaurant restaurant;
 
-  RestaurantDetailPage({required this.restaurant});
+  const RestaurantDetailPage({super.key, required this.restaurant});
 
   @override
   Widget build(BuildContext context) {
@@ -606,16 +624,16 @@ class RestaurantDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 'Menu:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             _buildMenuList(restaurant.menu, context), // Tambahkan context
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 'Minuman:',
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -631,7 +649,7 @@ class RestaurantDetailPage extends StatelessWidget {
   Widget _buildMenuList(List<MenuItem> items, BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
+      physics: const NeverScrollableScrollPhysics(),
       itemCount: items.length,
       itemBuilder: (context, index) {
         final item = items[index];
@@ -652,13 +670,13 @@ class RestaurantDetailPage extends StatelessWidget {
                     'Rp ${item.price.toString()}',
                   ),
                   IconButton(
-                    icon: Icon(Icons.add),
+                    icon: const Icon(Icons.add),
                     onPressed: () {
-                      item.quantity++; // Tambahkan 1 ke quantity
+                      item.quantity++;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text('Added to cart: ${item.name}'),
-                          duration: Duration(seconds: 1),
+                          duration: const Duration(seconds: 1),
                         ),
                       );
                     },
