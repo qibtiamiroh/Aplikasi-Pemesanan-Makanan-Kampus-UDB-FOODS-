@@ -1,9 +1,8 @@
-// ignore_for_file: must_be_immutable, unused_local_variable, use_build_context_synchronously, library_private_types_in_public_api, prefer_const_constructors, prefer_final_fields, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:project_uts/admin/beranda_admin.dart';
 import 'package:project_uts/beranda.dart';
 import 'package:project_uts/daftar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,12 +13,40 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _obscureText = true;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  Future<void> _login() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+
+    if (username == "admin" && password == "admin") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => AdminDashboard()),
+      );
+    } else {
+      try {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided.');
+        } else {
+          print('Login failed: ${e.message}');
+        }
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Page'),
+        title: Text(''),
       ),
       body: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
@@ -102,22 +129,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               SizedBox(height: 16.0),
                               ElevatedButton(
-                                onPressed: () {
-                                  String username = _usernameController.text;
-                                  String password = _passwordController.text;
-
-                                  if (username == "admin" && password == "admin") {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => AdminDashboard()),
-                                    );
-                                  } else {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => HomePage()),
-                                    );
-                                  }
-                                },
+                                onPressed: _login,
                                 child: Text('Login'),
                               ),
                               SizedBox(height: 8.0),
@@ -140,7 +152,8 @@ class _LoginPageState extends State<LoginPage> {
                                     child: Text(
                                       'akun baru',
                                       style: TextStyle(
-                                        color: Color.fromARGB(255, 251, 252, 252),
+                                        color:
+                                            Color.fromARGB(255, 251, 252, 252),
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

@@ -1,4 +1,3 @@
-// lib/screens/restaurant_management_page.dart
 // ignore_for_file: library_private_types_in_public_api, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
@@ -7,7 +6,8 @@ import 'package:project_uts/model/restoran_model.dart';
 
 class RestaurantManagementPage extends StatefulWidget {
   @override
-  _RestaurantManagementPageState createState() => _RestaurantManagementPageState();
+  _RestaurantManagementPageState createState() =>
+      _RestaurantManagementPageState();
 }
 
 class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
@@ -18,7 +18,10 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
   }
 
   void updateRestaurant(Restaurant restaurant) async {
-    await _firestore.collection('restaurants').doc(restaurant.id).update(restaurant.toJson());
+    await _firestore
+        .collection('restaurants')
+        .doc(restaurant.id)
+        .update(restaurant.toJson());
   }
 
   void deleteRestaurant(String id) async {
@@ -27,7 +30,8 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
 
   void showRestaurantForm({Restaurant? restaurant}) {
     final nameController = TextEditingController(text: restaurant?.name ?? '');
-    final addressController = TextEditingController(text: restaurant?.address ?? '');
+    final addressController =
+        TextEditingController(text: restaurant?.address ?? '');
     List<MenuItem> menu = restaurant?.menu ?? [];
 
     showDialog(
@@ -45,7 +49,8 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
                 ),
                 TextField(
                   controller: addressController,
-                  decoration: const InputDecoration(labelText: 'Alamat Restoran'),
+                  decoration:
+                      const InputDecoration(labelText: 'Alamat Restoran'),
                 ),
                 const SizedBox(height: 10),
                 const Text('Menu:'),
@@ -81,11 +86,13 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
                             children: [
                               TextField(
                                 controller: itemNameController,
-                                decoration: const InputDecoration(labelText: 'Nama Item'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Nama Item'),
                               ),
                               TextField(
                                 controller: itemPriceController,
-                                decoration: const InputDecoration(labelText: 'Harga Item'),
+                                decoration: const InputDecoration(
+                                    labelText: 'Harga Item'),
                                 keyboardType: TextInputType.number,
                               ),
                             ],
@@ -102,7 +109,8 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
                                 setState(() {
                                   menu.add(MenuItem(
                                     name: itemNameController.text,
-                                    price: double.parse(itemPriceController.text),
+                                    price:
+                                        double.parse(itemPriceController.text),
                                   ));
                                 });
                                 Navigator.of(context).pop();
@@ -178,7 +186,8 @@ class _RestaurantManagementPageState extends State<RestaurantManagementPage> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit),
-                      onPressed: () => showRestaurantForm(restaurant: restaurant),
+                      onPressed: () =>
+                          showRestaurantForm(restaurant: restaurant),
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete),

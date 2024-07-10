@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_final_fields, library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 
 class Product {
@@ -8,11 +6,12 @@ class Product {
   final String image;
   int quantity;
 
-  Product(
-      {required this.name,
-      required this.price,
-      required this.image,
-      this.quantity = 1});
+  Product({
+    required this.name,
+    required this.price,
+    required this.image,
+    this.quantity = 1,
+  });
 }
 
 class ShoppingCartPage extends StatefulWidget {
@@ -52,7 +51,17 @@ class _ShoppingCartPageState extends State<ShoppingCartPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Keranjang'),
+        title: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            Text('Keranjang'),
+          ],
+        ),
       ),
       body: ListView.builder(
         itemCount: _products.length,

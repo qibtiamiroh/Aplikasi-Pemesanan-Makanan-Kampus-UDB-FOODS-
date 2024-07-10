@@ -6,7 +6,13 @@ class Order {
   final double totalAmount;
   final String complaint;
 
-  Order({required this.id, required this.userId, required this.restaurantId, required this.status, required this.totalAmount, required this.complaint});
+  Order(
+      {required this.id,
+      required this.userId,
+      required this.restaurantId,
+      required this.status,
+      required this.totalAmount,
+      required this.complaint});
 
   factory Order.fromJson(Map<String, dynamic> json) {
     return Order(

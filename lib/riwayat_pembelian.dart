@@ -14,10 +14,6 @@ List<Payment> payments = [
   Payment(title: 'Chicken Burger', amount: 100000, date: '2024-05-07'),
 ];
 
-void main() {
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 

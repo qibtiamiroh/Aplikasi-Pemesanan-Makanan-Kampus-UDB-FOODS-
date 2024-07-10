@@ -12,7 +12,7 @@ class _AboutPageState extends State<AboutPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profil'),
+        title: const Text('Tentang'),
       ),
       body: const Center(
         child: Text('Halaman About'),

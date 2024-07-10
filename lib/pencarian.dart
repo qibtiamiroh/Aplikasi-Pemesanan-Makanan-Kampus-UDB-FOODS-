@@ -283,9 +283,9 @@ class _SearchBodyState extends State<SearchBody> {
         ),
         Expanded(
           child: ListView.builder(
-          itemCount: _restaurants.length,
-          itemBuilder: (context, index) {
-            final restaurant = _restaurants[index];
+            itemCount: _restaurants.length,
+            itemBuilder: (context, index) {
+              final restaurant = _restaurants[index];
               if (_searchQuery.isNotEmpty &&
                   !restaurant.name.toLowerCase().contains(_searchQuery)) {
                 return Container();
@@ -370,12 +370,12 @@ class MenuItem {
   }
 }
 
-
 class RestaurantCard extends StatelessWidget {
   final Restaurant restaurant;
   final Function(MenuItem) onAddToCart;
 
-  const RestaurantCard({super.key, required this.restaurant, required this.onAddToCart});
+  const RestaurantCard(
+      {super.key, required this.restaurant, required this.onAddToCart});
 
   @override
   Widget build(BuildContext context) {

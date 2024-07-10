@@ -2,249 +2,191 @@ import 'package:flutter/material.dart';
 
 class MenuItem {
   final String name;
-  final int price;
-  final String image;
-  int quantity;
+  final String description;
+  final double price;
+  final String imagePath;
 
   MenuItem({
     required this.name,
+    required this.description,
     required this.price,
-    required this.image,
-    this.quantity = 0,
+    required this.imagePath,
   });
 }
 
-class Restaurant {
-  final String name;
-  final String cuisine;
-  final List<MenuItem> menu;
-  final List<MenuItem> drinks;
-
-  Restaurant({
-    required this.name,
-    required this.cuisine,
-    required this.menu,
-    required this.drinks,
-  });
-}
-
-// Kelas RestaurantDetailPage
 class RestaurantDetailPage extends StatelessWidget {
-  final Restaurant restaurant;
+  final String name;
+  final String description;
+  final double rating;
+  final String imagePath;
+  final List<MenuItem> menuItems;
 
-  const RestaurantDetailPage({super.key, required this.restaurant});
+  RestaurantDetailPage({
+    required this.name,
+    required this.description,
+    required this.rating,
+    required this.imagePath,
+    required this.menuItems,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(restaurant.name),
+        title: Text(name),
       ),
       body: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Menu Makanan:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
+            Image.asset(
+              imagePath,
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
             ),
-            _buildMenuList(restaurant.menu, context),
-            const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                'Minuman:',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ),
-            _buildMenuList(restaurant.drinks, context),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildMenuList(List<MenuItem> items, BuildContext context) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: items.length,
-      itemBuilder: (context, index) {
-        final item = items[index];
-        return ListTile(
-          leading: Image.asset(
-            item.image,
-            height: 50,
-            width: 50,
-            fit: BoxFit.cover,
-          ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(item.name),
-              Row(
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Rp ${item.price.toString()}',
+                    name,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                  IconButton(
-                    icon: const Icon(Icons.add),
-                    onPressed: () {
-                      item.quantity++;
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text('Added to cart: ${item.name}'),
-                          duration: const Duration(seconds: 1),
+                  const SizedBox(height: 10.0),
+                  Text(
+                    description,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  Row(
+                    children: [
+                      Icon(Icons.star, color: Colors.yellow),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        '$rating',
+                        style: TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20.0),
+                  Text(
+                    'Menu',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10.0),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: menuItems.length,
+                    itemBuilder: (context, index) {
+                      MenuItem menuItem = menuItems[index];
+                      return Card(
+                        elevation: 4.0,
+                        margin: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: ListTile(
+                          leading: Image.asset(
+                            menuItem.imagePath,
+                            width: 50.0,
+                            height: 50.0,
+                            fit: BoxFit.cover,
+                          ),
+                          title: Text(menuItem.name),
+                          subtitle: Text(menuItem.description),
+                          trailing:
+                              Text('\$${menuItem.price.toStringAsFixed(2)}'),
                         ),
                       );
                     },
                   ),
                 ],
               ),
-            ],
-          ),
-        );
-      },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
 
-void main() {
-  List<Restaurant> restaurants = [
-    Restaurant(
-      name: 'Nasi Ayam',
-      cuisine: 'Indonesia',
-      menu: [
-        MenuItem(
-          name: 'Nasi Ayam Goreng',
-          price: 10000,
-          image: 'asset_media/image/nasi_ayam.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Ayam Kremes',
-          price: 10000,
-          image: 'asset_media/image/nasi_ayam_kremes.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Ayam Geprek',
-          price: 12000,
-          image: 'asset_media/image/nasi_ayam_geprek.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Ayam Penyet',
-          price: 11000,
-          image: 'asset_media/image/nasi_ayam_penyet.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Ayam Penyet Sambal Ijo',
-          price: 12000,
-          image: 'asset_media/image/nasi_ayam_penyet_sambal_ijo.jpg',
-        ),
-      ],
-      drinks: [
-        MenuItem(
-          name: 'Ice Tea',
-          price: 3000,
-          image: 'asset_media/image/es_teh.jpg',
-        ),
-        MenuItem(
-          name: 'Ice Lemon Tea',
-          price: 3500,
-          image: 'asset_media/image/es_lemon_tea.jpg',
-        ),
-        MenuItem(
-          name: 'Ice Lemonade',
-          price: 4000,
-          image: 'asset_media/image/es_jeruk.jpg',
-        ),
-      ],
-    ),
-    Restaurant(
-      name: 'Nasi Langgi',
-      cuisine: 'Indonesia',
-      menu: [
-        MenuItem(
-          name: 'Nasi Uduk',
-          price: 10000,
-          image: 'asset_media/image/nasi_uduk.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Kuning',
-          price: 12000,
-          image: 'asset_media/image/nasi_kuning.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Langgi',
-          price: 11000,
-          image: 'asset_media/image/nasi_langgi.jpg',
-        ),
-        MenuItem(
-          name: 'Nasi Rames',
-          price: 11000,
-          image: 'asset_media/image/nasi_rames.jpg',
-        ),
-      ],
-      drinks: [
-        MenuItem(
-          name: 'Ice Tea',
-          price: 3000,
-          image: 'asset_media/image/es_teh.jpg',
-        ),
-        MenuItem(
-          name: 'Ice Lemon Tea',
-          price: 3500,
-          image: 'asset_media/image/es_lemon_tea.jpg',
-        ),
-        MenuItem(
-          name: 'Ice Lemonade',
-          price: 4000,
-          image: 'asset_media/image/es_jeruk.jpg',
-        ),
-        MenuItem(
-          name: 'Milkshake',
-          price: 5000,
-          image: 'asset_media/image/milkshake.jpg',
-        ),
-      ],
-    ),
-  ];
+class NearbyRestaurantPage extends StatelessWidget {
+  final String name;
+  final String description;
+  final double rating;
+  final String imagePath;
+  final List<MenuItem> menuItems;
 
-  runApp(MaterialApp(
-    title: 'Restaurant App',
-    home: HomePage(restaurants: restaurants),
-  ));
-}
-
-class HomePage extends StatelessWidget {
-  final List<Restaurant> restaurants;
-
-  const HomePage({super.key, required this.restaurants});
+  NearbyRestaurantPage({
+    required this.name,
+    required this.description,
+    required this.rating,
+    required this.imagePath,
+    required this.menuItems,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Restaurants'),
-      ),
-      body: ListView.builder(
-        itemCount: restaurants.length,
-        itemBuilder: (context, index) {
-          final restaurant = restaurants[index];
-          return ListTile(
-            title: Text(restaurant.name),
-            subtitle: Text(restaurant.cuisine),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RestaurantDetailPage(restaurant: restaurant),
-                ),
-              );
-            },
-          );
-        },
+    return Card(
+      elevation: 8.0,
+      margin: const EdgeInsets.all(10.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.asset(
+              imagePath,
+              width: 100.0,
+              height: 100.0,
+              fit: BoxFit.cover,
+            ),
+            const SizedBox(width: 10.0),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 5.0),
+                  Text(
+                    description,
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  const SizedBox(height: 5.0),
+                  Row(
+                    children: [
+                      const Icon(Icons.star, color: Colors.yellow),
+                      const SizedBox(width: 5.0),
+                      Text(
+                        '$rating',
+                        style: const TextStyle(
+                          fontSize: 16.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

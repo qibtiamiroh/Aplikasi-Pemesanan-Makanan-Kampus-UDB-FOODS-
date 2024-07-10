@@ -17,7 +17,7 @@ class _OrderManagementPageState extends State<OrderManagementPage> {
   }
 
   void processRefund(String orderId) async {
-     try {
+    try {
       await Future.delayed(const Duration(seconds: 2)); 
       await _firestore.collection('orders').doc(orderId).update({'status': 'Dibatalkan'});
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Refund telah diproses untuk order $orderId')));
@@ -34,6 +34,85 @@ class _OrderManagementPageState extends State<OrderManagementPage> {
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Gagal menangani komplain: $e')));
     }
+  }
+
+  void _showAddOrderDialog() {
+    final orderIdController = TextEditingController();
+    final statusController = TextEditingController();
+    final totalAmountController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Tambah Pesanan Baru'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: orderIdController,
+                decoration: const InputDecoration(labelText: 'ID Pesanan'),
+                keyboardType: TextInputType.text,
+              ),
+              TextField(
+                controller: statusController,
+                decoration: const InputDecoration(labelText: 'Status'),
+                keyboardType: TextInputType.text,
+              ),
+              TextField(
+                controller: totalAmountController,
+                decoration: const InputDecoration(labelText: 'Total Amount'),
+                keyboardType: TextInputType.number,
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Batal'),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                final orderId = orderIdController.text.trim();
+                final status = statusController.text.trim();
+                final totalAmountString = totalAmountController.text.trim();
+                final totalAmount = double.tryParse(totalAmountString);
+
+                if (orderId.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('ID Pesanan tidak boleh kosong')),
+                  );
+                } else if (status.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Status tidak boleh kosong')),
+                  );
+                } else if (totalAmountString.isEmpty || totalAmount == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Total Amount harus berupa angka yang valid')),
+                  );
+                } else {
+                  try {
+                    await _firestore.collection('orders').add({
+                      'id': orderId,
+                      'status': status,
+                      'totalAmount': totalAmount,
+                    });
+                    Navigator.of(context).pop();
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Gagal menambahkan pesanan: $e')),
+                    );
+                  }
+                }
+              },
+              child: const Text('Simpan'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -118,6 +197,11 @@ class _OrderManagementPageState extends State<OrderManagementPage> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _showAddOrderDialog,
+        child: const Icon(Icons.add),
+        tooltip: 'Tambah Pesanan Baru',
       ),
     );
   }

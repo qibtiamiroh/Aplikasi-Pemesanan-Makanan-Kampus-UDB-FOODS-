@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, use_key_in_widget_constructors
-
 import 'package:flutter/material.dart';
 import 'package:project_uts/admin/laporan_analitik.dart';
 import 'package:project_uts/admin/manajemen_pengguna.dart';
@@ -15,86 +13,154 @@ class AdminMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
+      child: Column(
         children: [
-          DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Center(
+          Container(
+            color: Colors.blueAccent,
+            padding: EdgeInsets.all(0),
+            child: DrawerHeader(
+              decoration: BoxDecoration(
+                color: Colors.blueAccent,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(16)),
+                boxShadow: [BoxShadow(blurRadius: 4, color: Colors.black26)],
+              ),
+              margin: EdgeInsets.zero,
+              padding: EdgeInsets.zero,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Admin Menu',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
+                  Row(
+                    children: [
+                      IconButton(
+                        icon: Icon(Icons.arrow_back, color: Colors.white),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          'Admin Menu',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 8),
-                  CircleAvatar(
-                    backgroundImage: AssetImage('assets/logo.png'), // contoh penggunaan gambar/logo
-                    radius: 30,
+                  SizedBox(height: 16),
+                  Center(
+                    child: CircleAvatar(
+                      backgroundImage: AssetImage(
+                          'asset_media/image/burger_bar.jpg'),
+                      radius: 35, 
+                    ),
                   ),
                 ],
               ),
             ),
           ),
-          ListTile(
-            title: Text('User Management'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => UserManagementPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Restaurant Management'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => RestaurantManagementPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Order Management'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => OrderManagementPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Promotion Management'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PromotionManagementPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Reports and Analytics'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ReportAnalyticsPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Settings'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AppSettingsPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Notifications'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationsPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Reviews and Ratings'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ReviewManagementPage()));
-            },
-          ),
-          ListTile(
-            title: Text('Payment Integration'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentIntegrationPage()));
-            },
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  ListTile(
+                    leading: Icon(Icons.people, color: Colors.blue),
+                    title: Text('Menejemen Pengguna'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UserManagementPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.restaurant, color: Colors.blue),
+                    title: Text('Menejemen Restoran'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  RestaurantManagementPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.list_alt, color: Colors.blue),
+                    title: Text('Order Management'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OrderManagementPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.local_offer, color: Colors.blue),
+                    title: Text('Menejemen Promosi'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PromotionManagementPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.analytics, color: Colors.blue),
+                    title: Text('Ulasan dan Analisis'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReportAnalyticsPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings, color: Colors.blue),
+                    title: Text('Setting'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AppSettingsPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.notifications, color: Colors.blue),
+                    title: Text('Notifikasi'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => NotificationsPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.rate_review, color: Colors.blue),
+                    title: Text('Menejemen Review'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ReviewManagementPage()));
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.history, color: Colors.blue),
+                    title: Text('Riwayat Pembayaran'),
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => PaymentIntegrationPage()));
+                    },
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
